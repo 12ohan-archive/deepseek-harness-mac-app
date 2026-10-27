@@ -126,7 +126,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ServerControllerDelega
       styleMask: [.titled, .closable, .miniaturizable, .resizable],
       backing: .buffered,
       defer: false)
-    window.title = "DeepSeek Harness"
+    window.title = "DSH WK"
     // Full-size content view + transparent titlebar: the webview's own
     // two-tone strip paints the titlebar band, so the page's column colors
     // continue to the top edge with no separator line. The titlebar height
@@ -152,7 +152,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ServerControllerDelega
       window.center()
     }
     self.window = window
-    controller.showStatus("Preparing DeepSeek Harness…")
+    controller.showStatus("Preparing DSH WK…")
   }
 
   private func showMainWindow() {
@@ -225,7 +225,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ServerControllerDelega
     AppLog.shared.error("app: presenting failure dialog: \(message)")
     let alert = NSAlert()
     alert.alertStyle = .critical
-    alert.messageText = "Couldn't Start DeepSeek Harness"
+    alert.messageText = "Couldn't Start DSH WK"
     alert.informativeText = message
     alert.addButton(withTitle: "Retry")
     if offersFullInstaller { alert.addButton(withTitle: "Run Full Installer") }
@@ -331,7 +331,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ServerControllerDelega
   // MARK: - Menu bar
 
   private func buildMenu() {
-    let appName = "DeepSeek Harness"
+    let appName = "DSH WK"
     let menus = MainMenuBuilder.build(appName: appName, target: self)
     NSApp.mainMenu = menus.main
     NSApp.servicesMenu = menus.services

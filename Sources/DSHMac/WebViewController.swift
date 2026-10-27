@@ -250,8 +250,8 @@ final class WebViewController: NSViewController, WKNavigationDelegate, WKUIDeleg
       const h = window.webkit && window.webkit.messageHandlers
         && window.webkit.messageHandlers.dshContextMenu;
       if (!h) return;
-      const actionPattern = /(Rename|Fork|Archive|Delete|New Session|rename|fork|archive|delete|new session)/i;
-      const destructivePattern = /(Archive|Delete|archive|delete)/i;
+      const actionPattern = /(Rename|Fork|Archive|Delete|New Session|Pin|Unpin|Duplicate|Copy|Settings|Clear|Edit|Regenerate|重命名|分叉|分支|归档|删除|新建会话|置顶|取消置顶|固定|取消固定|复制|设置|导出|清空|编辑|重新生成)/i;
+      const destructivePattern = /(Archive|Delete|archive|delete|归档|删除)/i;
       const editable = function (element) {
         return !!(element && element.closest
           && element.closest('input,textarea,[contenteditable="true"],a[href]'));
@@ -325,6 +325,19 @@ final class WebViewController: NSViewController, WKNavigationDelegate, WKUIDeleg
     """,
     injectionTime: .atDocumentEnd,
     forMainFrameOnly: true)
+
+  private static let localeEnforceScript = WKUserScript(
+    source: """
+    (function () {
+      try {
+        if (window.localStorage) {
+          window.localStorage.setItem('dsh:locale', 'en');
+        }
+      } catch (e) {}
+    })();
+    """,
+    injectionTime: .atDocumentStart,
+    forMainFrameOnly: false)
 
   /// Page-side reporter: samples the actual rendered sidebar/content colors
   /// and live sidebar geometry without depending on CSS-module class names.
@@ -519,6 +532,7 @@ final class WebViewController: NSViewController, WKNavigationDelegate, WKUIDeleg
     userContent.addUserScript(SettingsPresentation.script)
     userContent.addUserScript(Self.themeScript)
     userContent.addUserScript(Self.contextMenuScript)
+    userContent.addUserScript(Self.localeEnforceScript)
     configuration.userContentController = userContent
     let webView = NativeWebView(frame: .zero, configuration: configuration)
     self.webView = webView
@@ -889,6 +903,34 @@ final class WebViewController: NSViewController, WKNavigationDelegate, WKUIDeleg
 
   // MARK: - Page object contextual menus
 
+  private func translateActionTitle(_ title: String) -> String {
+    let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
+    switch trimmed {
+    case "重命名": return "Rename"
+    case "分叉", "分支": return "Fork"
+    case "归档": return "Archive"
+    case "删除": return "Delete"
+    case "新建会话": return "New Session"
+    case "置顶", "固定": return "Pin"
+    case "取消置顶", "取消固定": return "Unpin"
+    case "复制": return "Copy"
+    case "设置": return "Settings"
+    case "导出": return "Export"
+    case "清空": return "Clear"
+    case "编辑": return "Edit"
+    case "重新生成": return "Regenerate"
+    default:
+      if trimmed.contains("重命名") { return "Rename" }
+      if trimmed.contains("归档") { return "Archive" }
+      if trimmed.contains("删除") { return "Delete" }
+      if trimmed.contains("分叉") || trimmed.contains("分支") { return "Fork" }
+      if trimmed.contains("新建会话") { return "New Session" }
+      if trimmed.contains("置顶") || trimmed.contains("固定") { return "Pin" }
+      if trimmed.contains("复制") { return "Copy" }
+      return trimmed
+    }
+  }
+
   func handleContextMenuMessage(_ message: WKScriptMessage) {
     guard message.name == Self.contextMenuMessageName,
       let request = WebContextMenuRequest(body: message.body) else {
@@ -899,19 +941,20 @@ final class WebViewController: NSViewController, WKNavigationDelegate, WKUIDeleg
     var addedNonDestructive = false
     var separatedDestructive = false
     for action in request.actions {
+      let title = translateActionTitle(action.title)
       if action.destructive && addedNonDestructive && !separatedDestructive {
         menu.addItem(.separator())
         separatedDestructive = true
       }
       let item = NSMenuItem(
-        title: action.title,
+        title: title,
         action: #selector(performWebContextMenuAction(_:)),
         keyEquivalent: "")
       item.target = self
       item.representedObject = action.token
       if action.destructive {
         item.attributedTitle = NSAttributedString(
-          string: action.title,
+          string: title,
           attributes: [.foregroundColor: NSColor.systemRed])
       } else {
         addedNonDestructive = true

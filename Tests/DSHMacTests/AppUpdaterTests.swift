@@ -43,7 +43,7 @@ final class AppUpdaterTests: XCTestCase {
   }
 
   func testRelaunchWaitsForOldProcessAndKeepsBundlePathOutOfShellSource() {
-    let hostilePath = "/Applications/DeepSeek Harness.app; touch /tmp/should-not-run"
+    let hostilePath = "/Applications/DSH WK.app; touch /tmp/should-not-run"
     let arguments = AppUpdater.relaunchHelperArguments(currentPID: 123, bundlePath: hostilePath)
 
     XCTAssertEqual(arguments[0], "-c")

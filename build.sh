@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build the DeepSeek Harness macOS shell into dist/"DeepSeek Harness.app".
+# Build the DSH WK macOS shell into dist/"DSH WK.app".
 #
 # Requirements: Xcode command line tools (swift + iconutil). No third-party
 # dependencies. The result is signed with the fixed self-signed identity
@@ -11,7 +11,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-APP_NAME="DeepSeek Harness"
+APP_NAME="DSH WK"
 BIN_NAME="DeepSeekHarness"
 OUT="dist/$APP_NAME.app"
 
@@ -39,6 +39,7 @@ rm -rf "$OUT"
 mkdir -p "$OUT/Contents/MacOS" "$OUT/Contents/Resources"
 cp "$BIN_PATH" "$OUT/Contents/MacOS/$BIN_NAME"
 cp Info.plist "$OUT/Contents/Info.plist"
+[ -d resources/en.lproj ] && cp -R resources/en.lproj "$OUT/Contents/Resources/"
 # CI stamps release metadata without requiring source edits for every build.
 # Version tags set APP_VERSION; rolling builds keep the marketing version but
 # receive a unique APP_BUILD and source commit.

@@ -37,7 +37,7 @@ final class AppUpdater {
 
   init(server: ServerController, noAutoUpdate: Bool) {
     self.server = server
-    self.enabled = !noAutoUpdate
+    self.enabled = false
   }
 
   // MARK: - dsh CLI
@@ -242,7 +242,7 @@ final class AppUpdater {
         AppLog.shared.error("updater: shell unzip failed")
         return
       }
-      let newBundle = unzipDir + "/DeepSeek Harness.app"
+      let newBundle = unzipDir + "/DSH WK.app"
       do {
         try ReleaseTrust.verifyAppBundle(at: URL(fileURLWithPath: newBundle))
       } catch {
@@ -276,7 +276,7 @@ final class AppUpdater {
   private func swapBundles(newBundle: String) throws {
     let bundlePath = Bundle.main.bundlePath
     let parent = (bundlePath as NSString).deletingLastPathComponent
-    let backup = parent + "/.DeepSeek Harness.old.app"
+    let backup = parent + "/.DSH WK.old.app"
     let fm = FileManager.default
     guard fm.isWritableFile(atPath: bundlePath) else {
       throw NSError(domain: "updater", code: 1,
@@ -296,7 +296,7 @@ final class AppUpdater {
 
   private func offerRestart() {
     let alert = NSAlert()
-    alert.messageText = "DeepSeek Harness Updated"
+    alert.messageText = "DSH WK Updated"
     alert.informativeText = "New version is ready; it takes effect after restart."
     alert.addButton(withTitle: "Restart Now")
     alert.addButton(withTitle: "Later")
@@ -329,7 +329,7 @@ final class AppUpdater {
       let alert = NSAlert()
       alert.alertStyle = .warning
       alert.messageText = "Couldn't Restart Automatically"
-      alert.informativeText = "The new version is installed, but the restart helper didn't run. Please quit and reopen DeepSeek Harness manually."
+      alert.informativeText = "The new version is installed, but the restart helper didn't run. Please quit and reopen DSH WK manually."
       alert.addButton(withTitle: "OK")
       alert.runModal()
     }

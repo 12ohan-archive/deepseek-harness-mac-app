@@ -179,7 +179,7 @@ enum MainMenuBuilder {
     // Help
     let helpMenu = NSMenu(title: "Help")
     helpMenu.addItem(item(
-      "DeepSeek Harness Help", action: #selector(AppDelegate.showHelpAction(_:)), key: "?",
+      "\(appName) Help", action: #selector(AppDelegate.showHelpAction(_:)), key: "?",
       modifiers: [.command, .shift], target: target, tag: .help))
     main.addItem(topLevel("Help", submenu: helpMenu))
 

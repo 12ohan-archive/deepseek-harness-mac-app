@@ -2,7 +2,7 @@ import Foundation
 
 /// Command-line options for the macOS shell.
 ///
-/// These are passed via `open -a "DeepSeek Harness" --args ...` and exist for
+/// These are passed via `open -a "DSH WK" --args ...` and exist for
 /// configuration and testing; normal double-click launches use the defaults.
 struct LaunchOptions: CustomStringConvertible {
   /// Force the web server port (default: probe 3080).
@@ -22,7 +22,7 @@ struct LaunchOptions: CustomStringConvertible {
   /// Screenshot aid: force the page (and the shell) into the dark theme.
   var shotDark = false
   /// Disable the startup auto-update checks (dsh CLI and the shell itself).
-  var noAutoUpdate = false
+  var noAutoUpdate = true
 
   var description: String {
     "LaunchOptions(port: \(port.map(String.init) ?? "nil"), forceSpawn: \(forceSpawn),"
@@ -75,7 +75,7 @@ struct LaunchOptions: CustomStringConvertible {
 
   private static let helpText: String =
     """
-    DeepSeek Harness (macOS shell)
+    DSH WK (macOS shell)
 
     Options:
       --port <n>     force the dsh web port (default: probe 3080)

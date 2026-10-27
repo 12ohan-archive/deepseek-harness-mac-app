@@ -5,11 +5,11 @@ import XCTest
 final class MainMenuBuilderTests: XCTestCase {
   func testBuildsStandardMacMenuHierarchyAndKeyEquivalents() throws {
     let delegate = AppDelegate(options: LaunchOptions())
-    let menus = MainMenuBuilder.build(appName: "DeepSeek Harness", target: delegate)
+    let menus = MainMenuBuilder.build(appName: "DSH WK", target: delegate)
 
     XCTAssertEqual(
       menus.main.items.map(\.title),
-      ["DeepSeek Harness", "文件", "编辑", "显示", "窗口", "帮助"])
+      ["DSH WK", "文件", "编辑", "显示", "窗口", "帮助"])
 
     let settings = try item(tag: .settings, in: menus.main)
     XCTAssertEqual(settings.title, "设置…")
@@ -37,7 +37,7 @@ final class MainMenuBuilderTests: XCTestCase {
 
   func testEveryShellCommandHasTheAppDelegateAsItsTarget() throws {
     let delegate = AppDelegate(options: LaunchOptions())
-    let menus = MainMenuBuilder.build(appName: "DeepSeek Harness", target: delegate)
+    let menus = MainMenuBuilder.build(appName: "DSH WK", target: delegate)
 
     for tag in [
       MainMenuCommandTag.settings, .newSession, .openInBrowser, .printPage,

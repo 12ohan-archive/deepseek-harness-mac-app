@@ -1,4 +1,4 @@
-# DeepSeek Harness for macOS
+# DSH WK (DeepSeek Harness for macOS)
 
 <p align="center">
   <img src="resources/app-icon-preview.png" width="160" alt="App icon: the black DeepSeek whale on a white rounded tile">
@@ -63,9 +63,9 @@
 ```sh
 git clone https://github.com/wheam/deepseek-harness-mac-app.git
 cd deepseek-harness-mac-app
-./build.sh                                  # 产物：dist/DeepSeek Harness.app
-cp -R "dist/DeepSeek Harness.app" ~/Applications/
-open -a "DeepSeek Harness"
+./build.sh                                  # 产物：dist/DSH WK.app
+cp -R "dist/DSH WK.app" ~/Applications/
+open -a "DSH WK"
 ```
 
 本地构建的 App 没有网上下载的隔离（quarantine）属性，`open` 直接就能运行；构建产物的签名方式见下方「说明」。
@@ -90,7 +90,7 @@ curl -fsSL https://github.com/wheam/deepseek-harness-mac-app/releases/download/l
 
 1. 打开 [Releases](https://github.com/wheam/deepseek-harness-mac-app/releases) 页，下载最新版的 `DeepSeek-Harness.zip`
    （[latest 滚动构建](https://github.com/wheam/deepseek-harness-mac-app/releases/tag/latest) 总是跟随 main 分支）；
-2. 解压，把 `DeepSeek Harness.app` 拖入 `/Applications`（或 `~/Applications`）；
+2. 解压，把 `DSH WK.app` 拖入 `/Applications`（或 `~/Applications`）；
 3. 首次打开：本 App 用自签名证书签名（无 Apple Developer ID），浏览器下载会打上隔离（quarantine）属性，
    macOS Gatekeeper 因此会拦截。这是 macOS 对所有非 Apple 认证开发者的统一行为，App 本身没有损坏。放行方式任选其一：
    - **macOS 15+（Sequoia/Tahoe）**：双击被拦后，打开 **系统设置 → 隐私与安全性 → 安全性**，点 **「仍要打开」** 并确认
@@ -98,18 +98,18 @@ curl -fsSL https://github.com/wheam/deepseek-harness-mac-app/releases/download/l
    - **macOS 13/14**：右键（Ctrl 点击）App → **打开**，再确认一次即可；
    - 或先移除隔离属性再双击（所有版本通用）：
      ```sh
-     xattr -cr "/Applications/DeepSeek Harness.app"
+     xattr -cr "/Applications/DSH WK.app"
      ```
 4. 之后无需手动更新：App 每次启动会自动检查并更新自身与全局安装的 dsh CLI（自动更新只接受固定发布证书签名的构建，并会顺带移除隔离属性；
    可用 `--no-auto-update` 关闭）。
 
 > 若提示「已损坏，无法打开」：说明签名校验没通过（如下载/解压过程中文件被改动、签名证书过期或不合规）。
-> 先运行 `xattr -cr "/Applications/DeepSeek Harness.app"` 即可照常运行；若仍报错，请重新下载。
+> 先运行 `xattr -cr "/Applications/DSH WK.app"` 即可照常运行；若仍报错，请重新下载。
 > 彻底消除警告的唯一办法是 Apple Developer ID 签名 + 公证（需付费 Apple 开发者账号，$99/年），本项目暂不提供。
 
 ### 调试参数
 
-`open -a "DeepSeek Harness" --args ...`：
+`open -a "DSH WK" --args ...`：
 
 | 参数 | 作用 |
 | --- | --- |
@@ -176,7 +176,7 @@ install.sh                        curl 一键安装脚本（补齐 Node/dsh、�
 
 ### 卸载
 
-1. 退出 App，把 `/Applications/DeepSeek Harness.app` 或 `~/Applications/DeepSeek Harness.app` 移到废纸篓；
+1. 退出 App，把 `/Applications/DSH WK.app` 或 `~/Applications/DSH WK.app` 移到废纸篓；
 2. 若不再使用命令行版，运行 `npm uninstall -g @deepseek-ai/dsh`；一键安装器曾回退到用户目录时运行
    `npm uninstall -g --prefix "$HOME/.local" @deepseek-ai/dsh`；
 3. 可选清理日志：`~/Library/Logs/DeepSeekHarness/`。如果不再使用 `~/.local/bin`，可手动删除安装器加到 shell 配置中的
@@ -230,9 +230,9 @@ Logs: `~/Library/Logs/DeepSeekHarness/deepseek-harness.log`.
 ```sh
 git clone https://github.com/wheam/deepseek-harness-mac-app.git
 cd deepseek-harness-mac-app
-./build.sh                                  # produces dist/DeepSeek Harness.app
-cp -R "dist/DeepSeek Harness.app" ~/Applications/
-open -a "DeepSeek Harness"
+./build.sh                                  # produces dist/DSH WK.app
+cp -R "dist/DSH WK.app" ~/Applications/
+open -a "DSH WK"
 ```
 
 Locally built apps carry no download quarantine attribute, so `open` runs them right away; see Notes below for how builds are signed.
@@ -259,7 +259,7 @@ and opens the app. Because it is not a browser download, the app carries no quar
 
 1. Open the [Releases](https://github.com/wheam/deepseek-harness-mac-app/releases) page and download the latest `DeepSeek-Harness.zip`
    (the [rolling "latest" build](https://github.com/wheam/deepseek-harness-mac-app/releases/tag/latest) always tracks the main branch);
-2. Unzip and drag `DeepSeek Harness.app` into `/Applications` (or `~/Applications`);
+2. Unzip and drag `DSH WK.app` into `/Applications` (or `~/Applications`);
 3. First launch: the app is signed with a self-signed certificate (no Apple Developer ID), and downloaded apps
    carry a quarantine attribute, so Gatekeeper blocks the first launch. That is macOS's standard behavior for any
    non-Apple-certified developer; the app itself is not damaged. Allow it either way:
@@ -268,20 +268,20 @@ and opens the app. Because it is not a browser download, the app carries no quar
    - **macOS 13/14**: right-click (Ctrl-click) the app → **Open**, then confirm, or
    - strip the quarantine attribute first, then double-click (any version):
      ```sh
-     xattr -cr "/Applications/DeepSeek Harness.app"
+     xattr -cr "/Applications/DSH WK.app"
      ```
 4. No manual updates after that: on every launch the app checks for and applies updates to itself and to a
    globally installed dsh CLI (shell updates must match the pinned release identity and strip quarantine only after verification; `--no-auto-update` disables this).
 
 > If macOS says the app "is damaged and can't be opened", signature validation failed (e.g. the file was altered
 > during download/unzip, or the signing certificate expired or is malformed). Run
-> `xattr -cr "/Applications/DeepSeek Harness.app"` and it will launch; if it still complains, re-download.
+> `xattr -cr "/Applications/DSH WK.app"` and it will launch; if it still complains, re-download.
 > Fully removing the warning requires an Apple Developer ID certificate + notarization (paid Apple Developer
 > Program, $99/yr), which this project does not use.
 
 ### Debug flags
 
-Passed via `open -a "DeepSeek Harness" --args ...`:
+Passed via `open -a "DSH WK" --args ...`:
 
 | Flag | Effect |
 | --- | --- |
@@ -350,7 +350,7 @@ install.sh                        one-line curl installer (bootstraps Node/dsh, 
 
 ### Uninstall
 
-1. Quit the app and move `/Applications/DeepSeek Harness.app` or `~/Applications/DeepSeek Harness.app` to Trash.
+1. Quit the app and move `/Applications/DSH WK.app` or `~/Applications/DSH WK.app` to Trash.
 2. If the CLI is no longer needed, run `npm uninstall -g @deepseek-ai/dsh`; if the installer used its user fallback, run
    `npm uninstall -g --prefix "$HOME/.local" @deepseek-ai/dsh`.
 3. Optionally remove `~/Library/Logs/DeepSeekHarness/`. If `~/.local/bin` is no longer used, remove the two installer-added lines headed `# DeepSeek Harness user-global CLI` from the applicable shell profile.
